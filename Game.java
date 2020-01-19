@@ -27,7 +27,6 @@ public class Game extends Canvas implements Runnable{
     level = loader.loadImage("map.png");
 
     loadLevel(level);
-    handler.addObject(new Player(100,100,handler));
   }
 
   public void start(){
@@ -119,6 +118,14 @@ public class Game extends Canvas implements Runnable{
 
         if(red == 255 && blue == 255 && green == 255){
           handler.addObject(new Block(xx*32, yy*32));
+        }
+
+        if(red == 255 && blue == 0 && green == 0){
+          handler.addObject(new Player(xx*32, yy*32, handler));
+        }
+
+        if(red == 0 && blue == 0 && green == 255){
+          handler.addObject(new Enemy(xx*32, yy*32, handler));
         }
       }
     }
