@@ -5,10 +5,12 @@ import java.awt.Color;
 public class Player extends GameObject {
 
   Handler handler;
+  Game game;
 
-  public Player(int x, int y, Handler handler){
+  public Player(int x, int y, Handler handler, Game game){
     super(x, y, ID.Player);
     this.handler = handler;
+    this.game = game;
   }
 
   public void tick(){
@@ -32,12 +34,18 @@ public class Player extends GameObject {
   }
 
   private void collision(){
-    for(int i = 0; i< handler.object.size(); i++){
+    for(int i = 0; i < handler.object.size(); i++){
       GameObject tempObject = handler.object.get(i);
       if(tempObject.getID() == ID.Block){
         if(getBounds().intersects(tempObject.getBounds())){
           x += velX * -1;
           y += velY * -1;
+        }
+      }
+      if(tempObject.getID() == ID.Crate){
+        if(getBounds().intersects(tempObject.getBounds())){
+          game.ammo+=25;
+          handler.removeObject(tempObject);
         }
       }
     }

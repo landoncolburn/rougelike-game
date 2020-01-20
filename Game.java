@@ -15,6 +15,8 @@ public class Game extends Canvas implements Runnable{
 
   private BufferedImage level = null;
 
+  public int ammo = 100;
+
   public Game(){
     new Window(1000,600,"Rougelike",this);
     start();
@@ -22,6 +24,7 @@ public class Game extends Canvas implements Runnable{
     handler = new Handler();
     camera = new Camera(0,0);
     this.addKeyListener(new KeyInput(handler));
+    this.addMouseListener(new MouseInput(handler, camera, this));
 
     BufferedImageLoader loader = new BufferedImageLoader();
     level = loader.loadImage("map.png");
@@ -121,11 +124,15 @@ public class Game extends Canvas implements Runnable{
         }
 
         if(red == 255 && blue == 0 && green == 0){
-          handler.addObject(new Player(xx*32, yy*32, handler));
+          handler.addObject(new Player(xx*32, yy*32, handler, this));
         }
 
         if(red == 0 && blue == 0 && green == 255){
           handler.addObject(new Enemy(xx*32, yy*32, handler));
+        }
+
+        if(red == 255 && blue == 0 && green == 255){
+          handler.addObject(new Crate(xx*32, yy*32));
         }
       }
     }
